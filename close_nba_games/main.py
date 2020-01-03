@@ -25,21 +25,14 @@ from twilio.rest import Client as TwilioClient
 # ----------------------------------------------------------------
 
 @task
-def create_twilio_client(
-  twilio_account_sid = str,
-  twilio_auth_token = str
-) -> TwilioClient:
+def create_twilio_client(twilio_account_sid, twilio_auth_token):
   return TwilioClient(
     twilio_account_sid.get(),
     twilio_auth_token.get()
   )
 
 @task
-def send_reminder(
-  phone_number = str,
-  twilio_client = TwilioClient,
-  twilio_phone_number = str
-) -> None:
+def send_reminder(phone_number, twilio_client, twilio_phone_number):
   twilio_client.messages.create(
     from_=twilio_phone_number.get(),
     to=phone_number.get(),
@@ -51,8 +44,6 @@ def send_reminder(
 # ----------------------------------------------------------------
 
 with Flow("Close NBA Games") as f:
-  print(repr(context.get("secrets")))
-
   # Create Twilio client
   twilio_client = create_twilio_client(
     twilio_account_sid = Secret('TWILIO_ACCOUNT_SID'),
