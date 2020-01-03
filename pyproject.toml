@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "close-nba-games"
+version = "0.1.0"
+description = ""
+authors = ["Pramod Jacob <pramod@prefect.io>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+prefect = "^0.8.1"
+twilio = "^6.35.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.6"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
