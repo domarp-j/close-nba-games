@@ -8,6 +8,7 @@ authors = ["Pramod Jacob <pramod@prefect.io>"]
 python = "^3.7"
 prefect = "^0.8.1"
 twilio = "^6.35.1"
+requests = "^2.22.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.6"
