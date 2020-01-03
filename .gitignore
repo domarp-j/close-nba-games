@@ -1,1 +1,4 @@
+.env
 .mypy_cache/
+close_nba_games.egg-info/
+close_nba_games/__pycache__
