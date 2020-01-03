@@ -14,7 +14,7 @@ requests = "^2.22.0"
 pytest = "^4.6"
 
 [tool.poetry.scripts]
-close-nba-games = "close_nba_games.main:run"
+close-nba-games = "close_nba_games.flow:run"
 
 [build-system]
 requires = ["poetry>=0.12"]
