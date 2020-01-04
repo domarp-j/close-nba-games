@@ -1,12 +1,13 @@
+import datetime
 import os
 import requests
-
 import prefect
+
 from prefect import task, Flow
 from prefect.client.secrets import Secret
 from prefect.engine import signals
 from prefect.environments.storage import Docker
-
+from prefect.schedules import IntervalSchedule
 from twilio.rest import Client as TwilioClient
 
 # ----------------------------------------------------------------
@@ -93,7 +94,11 @@ def send_message(account_sid, auth_token, message, sender, receiver):
 # Flow
 # ----------------------------------------------------------------
 
-with Flow("Close NBA Games") as f:
+schedule = IntervalSchedule(
+  interval=datetime.timedelta(minutes=15)
+)
+
+with Flow("Close NBA Games", schedule) as f:
   games = fetch_nba_games(nba_api_key = Secret('NBA_API_KEY'))
 
   games = check_for_closeness.map(games)
