@@ -1,3 +1,4 @@
+import os
 import requests
 
 import prefect
@@ -12,10 +13,14 @@ from twilio.rest import Client as TwilioClient
 # Before the Run
 # ----------------------------------------------------------------
 
+# Before doing anything, make sure that the DOCKER_REGISTRY
+# environment variable is set to your docker registry, which is
+# typically just your Docker Hub username.
+#
 # Local Runs
 #
-# Update [context.secrets] in your ~/prefect/config.toml with the
-# following values:
+# Update [context.secrets] in your ~/prefect/config.toml with
+# the following values:
 #
 # NBA_API_KEY - API key for NBA stats from Rapid API
 # PHONE_NUMBER - The phone number that will receive texts
@@ -25,8 +30,10 @@ from twilio.rest import Client as TwilioClient
 
 # Cloud Runs
 #
-# Ensure that the secrets above are stored in your Cloud account
-# Ensure that you're logged into Cloud via CLI
+# Ensure that the secrets above are set in your Cloud account.
+# Ensure that you're logged into Cloud via CLI.
+# Once you log in, execute `poetry run flow-deploy` to deploy to
+# Cloud.
 
 # ----------------------------------------------------------------
 # Tasks
@@ -114,7 +121,7 @@ def run():
 
 def deploy():
   f.storage = Docker(
-    # registry_url='',
+    registry_url=os.environ['DOCKER_REGISTRY'],
     python_dependencies=["twilio"]
   )
   f.register(project_name="Hello, World!")
