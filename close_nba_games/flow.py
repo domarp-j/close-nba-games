@@ -1,8 +1,11 @@
 import requests
 
-from prefect import context, task, triggers, Flow, Parameter
+import prefect
+from prefect import task, Flow
 from prefect.client.secrets import Secret
 from prefect.engine import signals
+from prefect.environments.storage import Docker
+
 from twilio.rest import Client as TwilioClient
 
 # ----------------------------------------------------------------
@@ -40,7 +43,7 @@ def fetch_nba_games(nba_api_key):
 
   if r.status_code != 200:
     message = f'Received a {r.status_code} from the NBA API.'
-    context.get('logger').error(message)
+    prefect.context.get('logger').error(message)
     raise signals.FAIL(message=message)
 
   return r.json()['api']['games']
@@ -70,10 +73,7 @@ def send_message(account_sid, auth_token, message, sender, receiver):
   if message is None:
     return
 
-  twilio_client = TwilioClient(
-    account_sid.get(),
-    auth_token.get()
-  )
+  twilio_client = TwilioClient(account_sid.get(), auth_token.get())
 
   twilio_client.messages.create(
     from_=sender.get(),
@@ -106,3 +106,11 @@ with Flow("Close NBA Games") as f:
 
 def run():
   f.run()
+
+def deploy():
+  f.storage = Docker()
+  f.register(
+    project_name="Hello, World!",
+    # registry_url='',
+    python_dependencies=["twilio"]
+  )
