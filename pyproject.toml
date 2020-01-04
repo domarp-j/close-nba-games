@@ -5,7 +5,7 @@ description = "A Python app that uses Prefect to create a scheduled flow that ch
 authors = ["Pramod Jacob <pramod@prefect.io>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "~3.7"
 prefect = "^0.8.1"
 twilio = "^6.35.1"
 requests = "^2.22.0"

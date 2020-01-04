@@ -26,6 +26,7 @@ from twilio.rest import Client as TwilioClient
 # Cloud Runs
 #
 # Ensure that the secrets above are stored in your Cloud account
+# Ensure that you're logged into Cloud via CLI
 
 # ----------------------------------------------------------------
 # Tasks
@@ -107,10 +108,13 @@ with Flow("Close NBA Games") as f:
 def run():
   f.run()
 
+# ----------------------------------------------------------------
+# Cloud Deploy
+# ----------------------------------------------------------------
+
 def deploy():
-  f.storage = Docker()
-  f.register(
-    project_name="Hello, World!",
+  f.storage = Docker(
     # registry_url='',
     python_dependencies=["twilio"]
   )
+  f.register(project_name="Hello, World!")
