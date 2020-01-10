@@ -24,10 +24,10 @@ from twilio.rest import Client as TwilioClient
 # the following values:
 #
 # NBA_API_KEY - API key for NBA stats from Rapid API
-# PHONE_NUMBER - The phone number that will receive texts
-# TWILIO_ACCOUNT_SID
-# TWILIO_AUTH_TOKEN
-# TWILIO_PHONE_NUMBER - The phone number that will send texts
+# NBA_API_PHONE_NUMBER - The phone number that will receive texts
+# NBA_API_TWILIO_ACCOUNT_SID
+# NBA_API_TWILIO_AUTH_TOKEN
+# NBA_API_TWILIO_PHONE_NUMBER - The phone number that will send texts
 
 # Cloud Runs
 #
@@ -106,11 +106,11 @@ with Flow("Close NBA Games", schedule) as f:
   message = compose_message(games)
 
   send_message(
-    account_sid = Secret('TWILIO_ACCOUNT_SID'),
-    auth_token = Secret('TWILIO_AUTH_TOKEN'),
+    account_sid = Secret('NBA_API_TWILIO_ACCOUNT_SID'),
+    auth_token = Secret('NBA_API_TWILIO_AUTH_TOKEN'),
     message = message,
-    receiver = Secret('PHONE_NUMBER'),
-    sender = Secret('TWILIO_PHONE_NUMBER')
+    receiver = Secret('NBA_API_PHONE_NUMBER'),
+    sender = Secret('NBA_API_TWILIO_PHONE_NUMBER')
   )
 
 # ----------------------------------------------------------------
@@ -129,4 +129,4 @@ def deploy():
     registry_url=os.environ['DOCKER_REGISTRY'],
     python_dependencies=["twilio"]
   )
-  f.register(project_name="Hello, World!")
+  f.register(project_name="Pramod's Flows")
