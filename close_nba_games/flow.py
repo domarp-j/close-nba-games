@@ -74,8 +74,25 @@ def compose_message(games):
 
   if len(close_games) == 0:
     return None
-
-  return "There is a close NBA game on right now!"
+  elif len(close_games) == 1:
+    game = close_games[0]
+    s = f"""
+      There is a close NBA game on right now between the {game['vTeam']['nickName']}
+      and {game['hTeam']['nickName']}! Score:
+      {game['vTeam']['score']['points']}-{game['hTeam']['score']['points']}.
+    """
+    return " ".join(s.split())
+  else:
+    s = f"""
+      There are {len(close_games)} close NBA games on right now!
+      {
+        " ".join([
+          f"{game['vTeam']['nickName']} @ {game['hTeam']['nickName']}: {game['vTeam']['score']['points']}-{game['hTeam']['score']['points']}."
+          for game in close_games
+        ])
+      }
+    """
+    return " ".join(s.split())
 
 @task
 def send_message(account_sid, auth_token, message, sender, receiver):
