@@ -50,12 +50,16 @@ def fetch_nba_games(nba_api_key):
     }
   )
 
+  logger = prefect.context.get('logger')
+
   if r.status_code != 200:
     message = f'Received a {r.status_code} from the NBA API.'
-    prefect.context.get('logger').error(message)
+    logger.error(message)
     raise signals.FAIL(message=message)
 
-  return r.json()['api']['games']
+  result =  r.json()['api']['games']
+  logger.debug(result)
+  return result
 
 @task
 def check_for_closeness(game):
