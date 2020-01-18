@@ -116,7 +116,7 @@ def send_message(account_sid, auth_token, message, sender, receiver):
 # ----------------------------------------------------------------
 
 schedule = IntervalSchedule(
-  interval=datetime.timedelta(minutes=15)
+  interval=datetime.timedelta(minutes=10)
 )
 
 with Flow("Close NBA Games", schedule) as f:
